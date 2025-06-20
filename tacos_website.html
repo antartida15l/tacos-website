@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taquería El Sabroso - Los Mejores Tacos de la Ciudad</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .cart-icon {
+            position: relative;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff6b35;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23ff6b35" width="1200" height="600"/><circle fill="%23f7931e" cx="200" cy="100" r="50" opacity="0.7"/><circle fill="%23f7931e" cx="800" cy="150" r="30" opacity="0.5"/><circle fill="%23f7931e" cx="400" cy="400" r="40" opacity="0.6"/><circle fill="%23f7931e" cx="1000" cy="300" r="60" opacity="0.4"/></svg>');
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .menu-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            border-radius: 2px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: #ff6b35;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .item-content {
+            padding: 1.5rem;
+        }
+
+        .item-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .item-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-content {
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .cart-item-price {
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .quantity-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-total {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .total-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .order-form {
+            background: #f8f9fa;
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        .submit-order {
+            width: 100%;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-order:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .promo-card {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .promo-card:hover {
+            transform: scale(1.05);
+        }
+
+        .promo-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        .promo-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .promo-description {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .promo-code {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .blog-section {
+            background: #f8f9fa;
+            padding: 5rem 2rem;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-excerpt {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .read-more {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: #f7931e;
+        }
+
+        .newsletter-section {
+            background: linear-gradient(135deg, #333, #555);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .newsletter-btn {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .loyalty-program {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .loyalty-points {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">🌮 El Sabroso</div>
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#menu">Menú</a></li>
+                <li><a href="#promociones">Promociones</a></li>
+                <li><a href="#recetas">Recetas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>¡Los Mejores Tacos de la Ciudad!</h1>
+            <p>Auténticos sabores mexicanos preparados con ingredientes frescos</p>
+            <a href="#menu" class="cta-button">Ver Menú</a>
+        </div>
+    </section>
+
+    <section class="menu-section" id="promociones">
+        <div class="container">
+            <h2 class="section-title">🔥 Promociones Especiales</h2>
+            <div class="menu-grid">
+                <div class="promo-card">
+                    <h3 class="promo-title">¡Martes de Tacos!</h3>
+                    <p class="promo-description">Todos los tacos a mitad de precio los martes</p>
+                    <div class="promo-code">CODIGO: MARTES50</div>
+                    <p>*Válido solo los martes de 5PM - 9PM</p>
+                </div>
+                <div class="promo-card">
+                    <h3 class="promo-title">Combo Familiar</h3>
+                    <p class="promo-description">12 tacos + 4 bebidas por solo $25</p>
+                    <div class="promo-code">CODIGO: FAMILIA25</div>
+                    <p>*Ahorra $7 en tu pedido familiar</p>
+                </div>
+                <div class="promo-card">
+                    <h3 class="promo-title">Primera Compra</h3>
+                    <p class="promo-description">15% de descuento en tu primer pedido</p>
+                    <div class="promo-code">CODIGO: BIENVENIDO15</div>
+                    <p>*Solo para nuevos clientes</p>
+                </div>
+            </div>
+            
+            <div class="loyalty-program">
+                <h3>🏆 Programa de Lealtad</h3>
+                <div class="loyalty-points">★ ★ ★</div>
+                <p>Por cada $10 que gastes, ganas 1 punto</p>
+                <p>10 puntos = 1 taco GRATIS</p>
+                <button class="cta-button" onclick="showLoyaltySignup()">¡Únete Ahora!</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-section" id="recetas">
+        <div class="container">
+            <h2 class="section-title">📖 Blog de Recetas</h2>
+            <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+                Descubre los secretos de la cocina mexicana auténtica
+            </p>
+            <div class="blog-grid" id="blogGrid">
+                <!-- Los posts del blog se generarán con JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter-section">
+        <div class="container">
+            <h3>📧 ¡Mantente al día con nuestras ofertas!</h3>
+            <p>Suscríbete y recibe promociones exclusivas directo en tu email</p>
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" class="newsletter-input" placeholder="Tu email aquí..." required>
+                <button type="submit" class="newsletter-btn">Suscribirse</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="menu-section" id="menu">
+        <div class="container">
+            <h2 class="section-title">Nuestro Menú</h2>
+            <div class="menu-grid" id="menuGrid">
+                <!-- Los items del menú se generarán con JavaScript -->
+            </div>
+            
+            <div class="order-form" id="orderForm">
+                <h3>Finalizar Pedido</h3>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="customerName">Nombre Completo:</label>
+                        <input type="text" id="customerName" name="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Teléfono:</label>
+                        <input type="tel" id="customerPhone" name="customerPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email:</label>
+                        <input type="email" id="customerEmail" name="customerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryType">Tipo de Entrega:</label>
+                        <select id="deliveryType" name="deliveryType" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="delivery">Entrega a domicilio</option>
+                            <option value="pickup">Recoger en tienda</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="addressGroup" style="display: none;">
+                        <label for="customerAddress">Dirección de Entrega:</label>
+                        <textarea id="customerAddress" name="customerAddress" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderNotes">Notas Especiales:</label>
+                        <textarea id="orderNotes" name="orderNotes" rows="3" placeholder="Instrucciones especiales para tu pedido..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-order">Confirmar Pedido - $<span id="finalTotal">0.00</span></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contacto">
+        <div class="container">
+            <h3>Contacto</h3>
+            <p>📍 Av. Principal 123, Centro de la Ciudad</p>
+            <p>📞 (555) 123-4567</p>
+            <p>📧 pedidos@elsabroso.com</p>
+            <p>🕒 Lunes a Domingo: 10:00 AM - 10:00 PM</p>
+        </div>
+    </footer>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu Pedido</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-content">
+            <div id="cartItems">
+                <p style="text-align: center; color: #666; padding: 2rem;">Tu carrito está vacío</p>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <div class="total-amount">Total: $<span id="totalAmount">0.00</span></div>
+                <button class="checkout-btn" onclick="proceedToCheckout()">Proceder al Pago</button>
+                <button class="checkout-btn" onclick="applyPromoCode()" style="background: #28a745; margin-top: 0.5rem;">Aplicar Código Promocional</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos del blog
+        const blogPosts = [
+            {
+                id: 1,
+                title: "El Secreto de las Carnitas Perfectas",
+                excerpt: "Descubre la técnica tradicional michoacana para preparar carnitas que se deshacen en tu boca. El secreto está en la cocción lenta y los condimentos...",
+                date: "15 Jun 2025",
+                emoji: "🥩",
+                content: `
+                    <h3>El Arte de las Carnitas Michoacanas</h3>
+                    <p>Las carnitas auténticas requieren paciencia y técnica. Aquí te compartimos los secretos:</p>
+                    <h4>Ingredientes:</h4>
+                    <ul>
+                        <li>2 kg de paleta de cerdo</li>
+                        <li>1 kg de manteca de cerdo</li>
+                        <li>1 naranja cortada en cuartos</li>
+                        <li>4 dientes de ajo</li>
+                        <li>Sal al gusto</li>
+                    </ul>
+                    <h4>Preparación:</h4>
+                    <ol>
+                        <li>Corta la carne en trozos grandes</li>
+                        <li>Cocina a fuego lento en manteca por 2-3 horas</li>
+                        <li>Agrega la naranja y el ajo en los últimos 30 minutos</li>
+                        <li>Desmenuza y dora ligeramente antes de servir</li>
+                    </ol>
+                `
+            },
+            {
+                id: 2,
+                title: "Salsa Verde Casera: Receta Familiar",
+                excerpt: "Una receta transmitida de generación en generación. Esta salsa verde es el complemento perfecto para cualquier taco. Ingredientes simples, sabor extraordinario...",
+                date: "12 Jun 2025",
+                emoji: "🌶️",
+                content: `
+                    <h3>Salsa Verde de la Abuela</h3>
+                    <p>Esta receta ha pasado por 4 generaciones en nuestra familia:</p>
+                    <h4>Ingredientes:</h4>
+                    <ul>
+                        <li>500g de tomates verdes</li>
+                        <li>2 chiles serranos</li>
+                        <li>1/4 de cebolla blanca</li>
+                        <li>2 dientes de ajo</li>
+                        <li>Cilantro al gusto</li>
+                        <li>Sal al gusto</li>
+                    </ul>
+                    <h4>Preparación:</h4>
+                    <ol>
+                        <li>Hierve los tomates verdes hasta que cambien de color</li>
+                        <li>Licúa con chiles, cebolla y ajo</li>
+                        <li>Sazona con sal y cilantro picadito</li>
+                        <li>¡Sirve inmediatamente para mejor sabor!</li>
+                    </ol>
+                `
+            },
+            {
+                id: 3,
+                title: "Tortillas de Maíz: Desde Cero",
+                excerpt: "Aprende a hacer tortillas de maíz auténticas usando masa harina. El proceso es más sencillo de lo que imaginas y el resultado es incomparable...",
+                date: "10 Jun 2025",
+                emoji: "🌽",
+                content: `
+                    <h3>Tortillas de Maíz Artesanales</h3>
+                    <p>No hay nada como una tortilla recién hecha. Aquí te enseñamos:</p>
+                    <h4>Ingredientes:</h4>
+                    <ul>
+                        <li>2 tazas de masa harina</li>
+                        <li>1 1/4 tazas de agua tibia</li>
+                        <li>1 cucharadita de sal</li>
+                    </ul>
+                    <h4>Preparación:</h4>
+                    <ol>
+                        <li>Mezcla la masa harina con sal</li>
+                        <li>Agrega agua poco a poco hasta formar una masa suave</li>
+                        <li>Reposa 30 minutos</li>
+                        <li>Forma bolitas y aplana con tortilladora</li>
+                        <li>Cocina en comal caliente por 30 segundos cada lado</li>
+                    </ol>
+                `
+            },
+            {
+                id: 4,
+                title: "Guacamole: Más que Aguacate",
+                excerpt: "El guacamole perfecto va más allá del aguacate. Conoce los ingredientes secretos que hacen la diferencia y las técnicas para lograr la textura ideal...",
+                date: "8 Jun 2025",
+                emoji: "🥑",
+                content: `
+                    <h3>Guacamole Auténtico Mexicano</h3>
+                    <p>El guacamole es un arte. Cada ingrediente tiene su propósito:</p>
+                    <h4>Ingredientes:</h4>
+                    <ul>
+                        <li>3 aguacates maduros</li>
+                        <li>1 tomate picadito</li>
+                        <li>1/4 cebolla blanca finamente picada</li>
+                        <li>1 chile serrano picado</li>
+                        <li>Jugo de 1 limón</li>
+                        <li>Cilantro picado</li>
+                        <li>Sal al gusto</li>
+                    </ul>
+                    <h4>Técnica:</h4>
+                    <ol>
+                        <li>Machaca los aguacates con tenedor (no licues)</li>
+                        <li>Agrega limón inmediatamente</li>
+                        <li>Incorpora los demás ingredientes gradualmente</li>
+                        <li>Prueba y ajusta sazón</li>
+                        <li>Sirve inmediatamente</li>
+                    </ol>
+                `
+            }
+        ];
+
+        let currentBlogPost = null;
+        let loyaltyPoints = 0;
+        let customerEmail = '';
+
+        // Generar posts del blog
+        function generateBlog() {
+            const blogGrid = document.getElementById('blogGrid');
+            blogGrid.innerHTML = '';
+
+            blogPosts.forEach(post => {
+                const blogCard = document.createElement('div');
+                blogCard.className = 'blog-card';
+                blogCard.innerHTML = `
+                    <div class="blog-image">${post.emoji}</div>
+                    <div class="blog-content">
+                        <div class="blog-title">${post.title}</div>
+                        <div class="blog-meta">📅 ${post.date} | 👨‍🍳 Chef Eduardo</div>
+                        <div class="blog-excerpt">${post.excerpt}</div>
+                        <a href="#" class="read-more" onclick="openBlogPost(${post.id})">Leer receta completa →</a>
+                    </div>
+                `;
+                blogGrid.appendChild(blogCard);
+            });
+        }
+
+        // Abrir post del blog
+        function openBlogPost(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                padding: 2rem;
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    max-width: 800px;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    border-radius: 15px;
+                    position: relative;
+                ">
+                    <div style="
+                        background: linear-gradient(45deg, #ff6b35, #f7931e);
+                        color: white;
+                        padding: 2rem;
+                        border-radius: 15px 15px 0 0;
+                    ">
+                        <h2>${post.title}</h2>
+                        <p>${post.date} | 👨‍🍳 Chef Eduardo</p>
+                        <button onclick="this.closest('.modal').remove()" style="
+                            position: absolute;
+                            top: 1rem;
+                            right: 1rem;
+                            background: rgba(255,255,255,0.2);
+                            border: none;
+                            color: white;
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            border-radius: 50%;
+                            width: 40px;
+                            height: 40px;
+                        ">×</button>
+                    </div>
+                    <div style="padding: 2rem; line-height: 1.6;">
+                        ${post.content}
+                        <div style="
+                            background: #f8f9fa;
+                            padding: 1.5rem;
+                            border-radius: 10px;
+                            margin-top: 2rem;
+                            text-align: center;
+                        ">
+                            <p><strong>💡 ¿Te gustó esta receta?</strong></p>
+                            <p>¡Ven a probar nuestra versión en El Sabroso!</p>
+                            <button onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'}); this.closest('.modal').remove();" style="
+                                background: linear-gradient(45deg, #ff6b35, #f7931e);
+                                color: white;
+                                border: none;
+                                padding: 0.8rem 1.5rem;
+                                border-radius: 25px;
+                                cursor: pointer;
+                                margin-top: 1rem;
+                            ">Ver Menú</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+        }
+
+        // Mostrar registro de programa de lealtad
+        function showLoyaltySignup() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                padding: 2rem;
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    max-width: 500px;
+                    border-radius: 15px;
+                    position: relative;
+                ">
+                    <div style="
+                        background: linear-gradient(135deg, #6a11cb, #2575fc);
+                        color: white;
+                        padding: 2rem;
+                        border-radius: 15px 15px 0 0;
+                        text-align: center;
+                    ">
+                        <h2>🏆 Programa de Lealtad</h2>
+                        <p>¡Únete y empieza a ganar puntos!</p>
+                        <button onclick="this.closest('.modal').remove()" style="
+                            position: absolute;
+                            top: 1rem;
+                            right: 1rem;
+                            background: rgba(255,255,255,0.2);
+                            border: none;
+                            color: white;
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            border-radius: 50%;
+                            width: 40px;
+                            height: 40px;
+                        ">×</button>
+                    </div>
+                    <div style="padding: 2rem;">
+                        <form id="loyaltyForm">
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Nombre:</label>
+                                <input type="text" required style="
+                                    width: 100%;
+                                    padding: 0.8rem;
+                                    border: 2px solid #ddd;
+                                    border-radius: 8px;
+                                ">
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email:</label>
+                                <input type="email" required style="
+                                    width: 100%;
+                                    padding: 0.8rem;
+                                    border: 2px solid #ddd;
+                                    border-radius: 8px;
+                                ">
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Teléfono:</label>
+                                <input type="tel" required style="
+                                    width: 100%;
+                                    padding: 0.8rem;
+                                    border: 2px solid #ddd;
+                                    border-radius: 8px;
+                                ">
+                            </div>
+                            <button type="submit" style="
+                                width: 100%;
+                                background: linear-gradient(135deg, #6a11cb, #2575fc);
+                                color: white;
+                                border: none;
+                                padding: 1rem;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 1.1rem;
+                            ">¡Registrarme Ahora!</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+
+            // Manejar envío del formulario de lealtad
+            modal.querySelector('#loyaltyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('¡Bienvenido al programa de lealtad! Ya puedes empezar a acumular puntos.');
+                modal.remove();
+            });
+        }
+
+        // Aplicar código promocional
+        function applyPromoCode() {
+            const promoInput = document.createElement('input');
+            promoInput.type = 'text';
+            promoInput.placeholder = 'Código promocional';
+            promoInput.style.cssText = `
+                width: 100%;
+                padding: 0.8rem;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+            `;
+
+            const applyBtn = document.createElement('button');
+            applyBtn.textContent = 'Aplicar Código';
+            applyBtn.style.cssText = `
+                width: 100%;
+                background: linear-gradient(45deg, #ff6b35, #f7931e);
+                color: white;
+                border: none;
+                padding: 0.8rem;
+                border-radius: 8px;
+                cursor: pointer;
+                margin-bottom: 1rem;
+            `;
+
+            const cartTotal = document.getElementById('cartTotal');
+            const promoSection = document.createElement('div');
+            promoSection.appendChild(promoInput);
+            promoSection.appendChild(applyBtn);
+            
+            cartTotal.insertBefore(promoSection, cartTotal.firstChild);
+
+            applyBtn.addEventListener('click', function() {
+                const code = promoInput.value.toUpperCase();
+                let discount = 0;
+                let message = '';
+
+                switch(code) {
+                    case 'MARTES50':
+                        if (new Date().getDay() === 2) { // Martes
+                            discount = 0.5;
+                            message = '¡50% de descuento aplicado!';
+                        } else {
+                            message = 'Este código solo es válido los martes';
+                        }
+                        break;
+                    case 'BIENVENIDO15':
+                        discount = 0.15;
+                        message = '¡15% de descuento aplicado!';
+                        break;
+                    default:
+                        message = 'Código no válido';
+                }
+
+                if (discount > 0) {
+                    const currentTotal = parseFloat(document.getElementById('totalAmount').textContent);
+                    const newTotal = currentTotal * (1 - discount);
+                    document.getElementById('totalAmount').textContent = newTotal.toFixed(2);
+                    document.getElementById('finalTotal').textContent = newTotal.toFixed(2);
+                }
+
+                alert(message);
+                if (discount > 0) {
+                    promoSection.remove();
+                }
+            });
+        }
+        const menuItems = [
+            {
+                id: 1,
+                name: "Taco de Carnitas",
+                description: "Carne de cerdo cocida lentamente, cebolla, cilantro y salsa verde",
+                price: 2.50,
+                emoji: "🌮"
+            },
+            {
+                id: 2,
+                name: "Taco de Pollo",
+                description: "Pollo marinado a la parrilla, pico de gallo y crema",
+                price: 2.25,
+                emoji: "🐔"
+            },
+            {
+                id: 3,
+                name: "Taco de Carne Asada",
+                description: "Carne de res asada, guacamole, cebolla y cilantro",
+                price: 2.75,
+                emoji: "🥩"
+            },
+            {
+                id: 4,
+                name: "Taco Vegetariano",
+                description: "Frijoles negros, aguacate, lechuga, tomate y queso",
+                price: 2.00,
+                emoji: "🥬"
+            },
+            {
+                id: 5,
+                name: "Taco de Pescado",
+                description: "Pescado empanizado, repollo morado y salsa de chipotle",
+                price: 3.00,
+                emoji: "🐟"
+            },
+            {
+                id: 6,
+                name: "Taco de Chorizo",
+                description: "Chorizo mexicano, papas, cebolla y salsa roja",
+                price: 2.50,
+                emoji: "🌶️"
+            }
+        ];
+
+        let cart = [];
+
+        // Generar el menú
+        function generateMenu() {
+            const menuGrid = document.getElementById('menuGrid');
+            menuGrid.innerHTML = '';
+
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.innerHTML = `
+                    <div class="item-image">${item.emoji}</div>
+                    <div class="item-content">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-description">${item.description}</div>
+                        <div class="item-price">$${item.price.toFixed(2)}</div>
+                        <button class="add-to-cart" onclick="addToCart(${item.id})">
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                `;
+                menuGrid.appendChild(menuItem);
+            });
+        }
+
+        // Agregar al carrito
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            const existingItem = cart.find(i => i.id === itemId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+
+            updateCartDisplay();
+            updateCartCount();
+            
+            // Animación de feedback
+            const button = event.target;
+            button.style.transform = 'scale(0.95)';
+            button.textContent = '¡Agregado!';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+                button.textContent = 'Agregar al Carrito';
+            }, 300);
+        }
+
+        // Actualizar contador del carrito
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        // Actualizar display del carrito
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Tu carrito está vacío</p>';
+                cartTotal.style.display = 'none';
+                return;
+            }
+
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">$${item.price.toFixed(2)} c/u</div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="changeQuantity(${item.id}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="quantity-btn" onclick="changeQuantity(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+
+            document.getElementById('totalAmount').textContent = total.toFixed(2);
+            document.getElementById('finalTotal').textContent = total.toFixed(2);
+            cartTotal.style.display = 'block';
+        }
+
+        // Cambiar cantidad
+        function changeQuantity(itemId, change) {
+            const item = cart.find(i => i.id === itemId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== itemId);
+                }
+                updateCartDisplay();
+                updateCartCount();
+            }
+        }
+
+        // Toggle carrito
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('overlay');
+            
+            cartSidebar.classList.toggle('open');
+            overlay.style.display = cartSidebar.classList.contains('open') ? 'block' : 'none';
+        }
+
+        // Proceder al checkout
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+            
+            toggleCart();
+            document.getElementById('orderForm').style.display = 'block';
+            document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Cerrar overlay
+        document.getElementById('overlay').addEventListener('click', function() {
+            toggleCart();
+        });
+
+        // Manejar tipo de entrega
+        document.getElementById('deliveryType').addEventListener('change', function() {
+            const addressGroup = document.getElementById('addressGroup');
+            if (this.value === 'delivery') {
+                addressGroup.style.display = 'block';
+                document.getElementById('customerAddress').required = true;
+            } else {
+                addressGroup.style.display = 'none';
+                document.getElementById('customerAddress').required = false;
+            }
+        });
+
+        // Manejar envío del formulario
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+
+            const formData = new FormData(this);
+            const orderData = {
+                customer: {
+                    name: formData.get('customerName'),
+                    phone: formData.get('customerPhone'),
+                    email: formData.get('customerEmail'),
+                    address: formData.get('customerAddress')
+                },
+                deliveryType: formData.get('deliveryType'),
+                notes: formData.get('orderNotes'),
+                items: cart,
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                timestamp: new Date().toISOString()
+            };
+
+            // Simular envío del pedido
+            alert(`¡Pedido confirmado!\n\nGracias ${orderData.customer.name}, tu pedido por $${orderData.total.toFixed(2)} ha sido recibido.\n\nTe contactaremos al ${orderData.customer.phone} para confirmar los detalles.`);
+            
+            // Limpiar carrito y formulario
+            cart = [];
+            updateCartDisplay();
+            updateCartCount();
+            this.reset();
+            document.getElementById('orderForm').style.display = 'none';
+        });
+
+        // Navegación suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Manejar suscripción al newsletter
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            alert(`¡Gracias por suscribirte! Te enviaremos las mejores ofertas a ${email}`);
+            this.reset();
+        });
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            generateMenu();
+            generateBlog();
+        });
+    </script>
+</body>
+</html>
